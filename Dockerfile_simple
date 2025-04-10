@@ -1,0 +1,18 @@
+# Base Image
+FROM nvidia/package:v0.1.1
+# Labels
+# LABEL maintainer=chatchat
+# Environment Variables
+ENV HOME=/Langchain-Chatchat
+# Commands
+# WORKDIR /
+RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
+    echo "Asia/Shanghai" > /etc/timezone && \
+    mkdir -p $HOME
+# Copy the application files
+# COPY . $HOME
+WORKDIR $HOME
+
+
+EXPOSE 22 7871 8511 20010 20011
+ENTRYPOINT ["python3", "startup.py", "-a"]

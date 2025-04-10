@@ -1,0 +1,16 @@
+{% set ns = namespace(first_message_skipped=False, first_user_message=True) %}
+{%- for message in messages -%}
+{%- if not ns.first_message_skipped and message['role'] == 'assistant' -%}
+{%- set ns.first_message_skipped = True -%}
+{%- elif message['role'] == 'user' -%}
+{%- if ns.first_user_message -%}
+用户：{{ message['content'] }}
+{%- set ns.first_user_message = False -%}
+{%- else -%}
+<sep>用户：{{ message['content'] }}
+{%- endif -%}
+{%- elif message['role'] == 'assistant' -%}
+<sep>AI：{{ message['content'] }}
+{%- endif -%}
+{%- endfor -%}
+<sep>AI：
